@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ETB_Today.travelrequest>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Request Dashboard</h2>
+
+<p>
+    @Html.ActionLink("Raise new request", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Request Id</th>
+                <th>Employee Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Reason for Travel</th>
+                <th>Flight Needed</th>
+                <th>Hotel Needed</th>
+                <th>Departure City</th>
+                <th>Arrival City</th>
+                <th>Departure Date</th>
+                <th>Departure Time</th>
+                <th>Additional Information</th>
+                <th>Approval Status</th>
+                <th>Booking Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.requestid)</td>
+                    <td>@Html.DisplayFor(modelItem => item.employeeid)</td>
+                    <td>@Html.DisplayFor(modelItem => item.employeename)</td>                    
+                    <td>@Html.DisplayFor(modelItem => item.employeeemail)</td>
+                    <td>@Html.DisplayFor(modelItem => item.reasonfortravel)</td>
+                    <td>@Html.DisplayFor(modelItem => item.flightneeded)</td>
+                    <td>@Html.DisplayFor(modelItem => item.hotelneeded)</td>
+                    <td>@Html.DisplayFor(modelItem => item.departurecity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.arrivalcity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.departuredate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.departuretime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.additionalinformation)</td>
+                    <td>@Html.DisplayFor(modelItem => item.approvalstatus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.bookingstatus)</td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.requestid }, new { @class = "btn btn-info btn-sm" })
+
+                        @Html.ActionLink("Cancel", "Edit", new { id = item.requestid }, new { @class = "btn btn-primary btn-sm" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

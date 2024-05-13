@@ -1,0 +1,124 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Travel Agent Dashboard - Pending Travel Requests</title>
+    <style>
+        /* Heading Style */
+        h2 {
+            text-align: left;
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Table Style */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Button Style */
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        /* Status Dropdown Style */
+        .form-control {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Pending Travel Requests</h2>
+
+    <div>
+        @if (Model.Count > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Employee Name</th>
+                        <th>Employee Email</th>
+                        <th>Reason for Travel</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model)
+                    {
+                        <tr>
+                            <td>@request.requestid</td>
+                            <td>@request.employeename</td>
+                            <td>@request.employeeemail</td>
+                            <td>@request.reasonfortravel</td>
+                            <td>
+                                @using (Html.BeginForm("UpdateStatus", "TravelAgentDashboard", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken() <!-- Add AntiForgeryToken here -->
+
+                                    @Html.Hidden("requestId", (int)request.requestid)
+
+                                    <div class="form-group">
+                                        <label for="status">Status:</label>
+                                        <select class="form-control" name="status">
+                                            <option value="Confirmed">Confirmed</option>
+                                            <option value="Not available">Not available</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Update Status</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No pending travel requests.</p>
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+    </div>
+</body>
+</html>
